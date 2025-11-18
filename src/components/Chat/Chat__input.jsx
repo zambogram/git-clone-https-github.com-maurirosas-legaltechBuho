@@ -1,7 +1,12 @@
 import React, {useEffect, useRef, useState} from "react";
-import {ChatInputButton, ChatInputField, ChatInputWrapper,} from "../../styles/Chat.styled";
+import {
+    ChatInputWrapper,
+    ChatInputContainer,
+    ChatInputField,
+    ChatInputButton,
+} from "../../styles/Chat.styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowUp, faPaperPlane} from "@fortawesome/free-solid-svg-icons";
+import {faPaperPlane} from "@fortawesome/free-solid-svg-icons";
 
 export const Chat__inputComponent = ({onSend}) => {
     const [input, setInput] = useState("");
@@ -16,7 +21,7 @@ export const Chat__inputComponent = ({onSend}) => {
 
     useEffect(() => {
         autosize();
-    }, []);
+    }, [input]);
 
     const handleChange = (e) => {
         setInput(e.target.value);
@@ -43,17 +48,23 @@ export const Chat__inputComponent = ({onSend}) => {
 
     return (
         <ChatInputWrapper>
-            <ChatInputField
-                ref={taRef}
-                rows={1}
-                placeholder="Haz tu consulta juridica"
-                value={input}
-                onChange={handleChange}
-                onKeyDown={onKeyDown}
-            />
-            <ChatInputButton onClick={handleSubmit} aria-label="Enviar">
-                <FontAwesomeIcon icon={faPaperPlane}/>
-            </ChatInputButton>
+            <ChatInputContainer>
+                <ChatInputField
+                    ref={taRef}
+                    rows={1}
+                    placeholder="Resuelve tus dudas jurídicas"
+                    value={input}
+                    onChange={handleChange}
+                    onKeyDown={onKeyDown}
+                />
+                <ChatInputButton
+                    onClick={handleSubmit}
+                    $hasValue={!!input.trim()}
+                    aria-label="Enviar"
+                >
+                    <FontAwesomeIcon icon={faPaperPlane}/>
+                </ChatInputButton>
+            </ChatInputContainer>
         </ChatInputWrapper>
     );
 };

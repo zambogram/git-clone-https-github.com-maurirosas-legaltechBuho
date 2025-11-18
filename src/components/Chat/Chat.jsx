@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from "r
 import {Chat} from "../../styles/Chat.styled";
 import {Chat__messagesComponent} from "./Chat__messages";
 import {Chat__inputComponent} from "./Chat__input";
+import EmptyState from "./EmptyState";
 import {createNewChat, fetchMessages, sendUserMessage, subscribeMessages} from "../../services/chatService";
 import {AuthContext} from "../../context/AuthContext";
 import {callAI} from "../../services/ai";
@@ -217,17 +218,24 @@ export const ChatComponent = ({chatId: chatIdFromRoute}) => {
         }
     };
 
-    const messagesToShow = messages.length
-        ? messages
-        : [{text: "Hola, ¿en qué puedo ayudarte?", isUser: false}];
+    const handleSuggestionClick = (suggestionText) => {
+        handleSend(suggestionText);
+    };
 
     return (
         <Chat>
-            <Chat__messagesComponent
-                messages={messagesToShow}
-                bottomRef={bottomRef}
-                typing={typing}
-            />
+            {messages.length === 0 ? (
+                <EmptyState
+                    userName={user?.name}
+                    onSuggestionClick={handleSuggestionClick}
+                />
+            ) : (
+                <Chat__messagesComponent
+                    messages={messages}
+                    bottomRef={bottomRef}
+                    typing={typing}
+                />
+            )}
             <Chat__inputComponent onSend={(userText) => handleSend(userText)}/>
         </Chat>
     );
