@@ -1,4 +1,5 @@
 import React, {forwardRef, useContext} from "react";
+import { useNavigate } from "react-router-dom";
 import {
     DropdownWrapper,
     DropdownHeader,
@@ -14,6 +15,15 @@ import {AuthContext} from "../context/AuthContext";
 
 export const DropdownComponent = forwardRef((props, ref) => {
     const {loginWithGoogle, logout, user} = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleProfileClick = () => {
+        navigate("/profile");
+    };
+
+    const handleSettingsClick = () => {
+        navigate("/settings");
+    };
 
     return (
         <DropdownWrapper ref={ref}>
@@ -25,12 +35,12 @@ export const DropdownComponent = forwardRef((props, ref) => {
                     </DropdownHeader>
 
                     <DropdownMenu>
-                        <DropdownItem>
+                        <DropdownItem onClick={handleProfileClick}>
                             <FontAwesomeIcon icon={faUser}/>
                             <span>Mi perfil</span>
                         </DropdownItem>
 
-                        <DropdownItem>
+                        <DropdownItem onClick={handleSettingsClick}>
                             <FontAwesomeIcon icon={faGear}/>
                             <span>Ajustes</span>
                         </DropdownItem>

@@ -1,4 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import {
   HomeContainer,
   GlobalHomeFonts,
@@ -60,6 +62,8 @@ import {
 } from "../styles/Home.styled";
 
 export const Home = () => {
+  const { user, loginWithGoogle } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [navVisible, setNavVisible] = useState(false);
@@ -70,6 +74,14 @@ export const Home = () => {
   const lastScrollTime = useRef(0);
   const scrollCooldown = useRef(false);
   const scrollThreshold = 100;
+
+  const handleCTAClick = () => {
+    if (user) {
+      navigate("/Chat");
+    } else {
+      loginWithGoogle();
+    }
+  };
 
   const slides = [
     {
@@ -264,7 +276,9 @@ export const Home = () => {
             <NavLinks>
               <NavLink href="#beneficios">Beneficios</NavLink>
               <NavLink href="#guia">Guía de uso</NavLink>
-              <NavButton>Contáctanos</NavButton>
+              <NavButton onClick={handleCTAClick}>
+                {user ? "Ir a la App" : "Iniciar sesión"}
+              </NavButton>
             </NavLinks>
           </Nav>
         </HeaderContent>
@@ -384,7 +398,9 @@ export const Home = () => {
           <CTASubtitle>
             Únete a los profesionales que ya están usando BÚHO para optimizar su trabajo.
           </CTASubtitle>
-          <CTAButton><span>Solicitar acceso ahora</span></CTAButton>
+          <CTAButton onClick={handleCTAClick}>
+            <span>{user ? "Ir a la App" : "Solicitar acceso ahora"}</span>
+          </CTAButton>
           <CTANote>Prueba gratuita disponible • Sin compromiso inicial</CTANote>
         </CTAContainer>
       </CTASection>
