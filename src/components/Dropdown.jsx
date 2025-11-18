@@ -1,56 +1,62 @@
 import React, {forwardRef, useContext} from "react";
-import {Dropdown, Dropdown__item, Dropdown__list,} from "../styles/Dropdown.styled";
+import {
+    DropdownWrapper,
+    DropdownHeader,
+    DropdownUserName,
+    DropdownUserEmail,
+    DropdownMenu,
+    DropdownItem,
+    DropdownDivider
+} from "../styles/Navbar.styled";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faGear, faRightFromBracket, faUser,} from "@fortawesome/free-solid-svg-icons";
+import {faGear, faRightFromBracket, faUser} from "@fortawesome/free-solid-svg-icons";
 import {AuthContext} from "../context/AuthContext";
 
 export const DropdownComponent = forwardRef((props, ref) => {
     const {loginWithGoogle, logout, user} = useContext(AuthContext);
 
     return (
-        <Dropdown ref={ref}>
+        <DropdownWrapper ref={ref}>
             {user ? (
-                <Dropdown__list>
-                    <Dropdown__item>
-                        <FontAwesomeIcon icon={faUser} style={{color: "#808080"}}/>{" "}
-                        {user?.name && (
-                            <span style={{marginLeft: "0.5rem"}}>{user.name}</span>
-                        )}
-                    </Dropdown__item>
+                <>
+                    <DropdownHeader>
+                        <DropdownUserName>{user.name || "Usuario"}</DropdownUserName>
+                        <DropdownUserEmail>{user.email || ""}</DropdownUserEmail>
+                    </DropdownHeader>
 
-                    <Dropdown__item>
-                        <FontAwesomeIcon icon={faGear} style={{color: "#808080"}}/>{" "}
-                        <span style={{marginLeft: "0.5rem"}}>Ajustes</span>
-                    </Dropdown__item>
+                    <DropdownMenu>
+                        <DropdownItem>
+                            <FontAwesomeIcon icon={faUser}/>
+                            <span>Mi perfil</span>
+                        </DropdownItem>
 
-                    <Dropdown__item>
-                        <a onClick={logout}>
-                            <FontAwesomeIcon
-                                icon={faRightFromBracket}
-                                style={{color: "#808080"}}
-                            />
-                            <span style={{marginLeft: "0.5rem"}}>Cerrar sesión</span>
-                        </a>
-                    </Dropdown__item>
-                </Dropdown__list>
+                        <DropdownItem>
+                            <FontAwesomeIcon icon={faGear}/>
+                            <span>Ajustes</span>
+                        </DropdownItem>
+
+                        <DropdownDivider />
+
+                        <DropdownItem onClick={logout}>
+                            <FontAwesomeIcon icon={faRightFromBracket}/>
+                            <span>Cerrar sesión</span>
+                        </DropdownItem>
+                    </DropdownMenu>
+                </>
             ) : (
-                <Dropdown__list>
-                    <Dropdown__item>
-                        <a
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                console.log("CLICK DETECTADO");
-                                console.log("loginWithGoogle:", loginWithGoogle);
-                                loginWithGoogle();
-                            }}
-                        >
-                            <FontAwesomeIcon icon={faUser} style={{color: "#808080"}}/>{" "}
-                            <span style={{marginLeft: "0.5rem"}}>Iniciar sesión</span>
-                        </a>
-                    </Dropdown__item>
-                </Dropdown__list>
+                <DropdownMenu>
+                    <DropdownItem
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            loginWithGoogle();
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faUser}/>
+                        <span>Iniciar sesión</span>
+                    </DropdownItem>
+                </DropdownMenu>
             )}
-        </Dropdown>
+        </DropdownWrapper>
     );
 });

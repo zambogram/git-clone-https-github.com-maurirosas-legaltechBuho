@@ -1,124 +1,188 @@
 import styled from "styled-components";
+import { colors, spacing, typography, shadows, transitions } from './designSystem';
 
-const Navbar__toggle = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 10px;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// NAVBAR PRINCIPAL
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const NavbarWrapper = styled.nav`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  height: 64px;
+  background: ${colors.bgPrimary};
+  border-bottom: 1px solid ${colors.border};
+  padding: 0 ${spacing.xl};
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    height: 56px;
+    padding: 0 ${spacing.md};
+  }
 `;
 
-const Toggle__img = styled.img`
-    width: 24px;
-`;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// TÍTULO DEL CHAT (CENTRADO)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const NavbarWrapper = styled.nav`
-    display: flex;
-    justify-content: space-between;
-    margin: auto;
-    align-items: center;
-    background: #FFFFFF;
-    padding: 1rem 3rem;
-    position: relative;
-    height: 5vh;
-    border-top-right-radius: 21px;
-    @media (max-width: 480px) {
-        padding: 0.5rem 1rem;
-    }
-`;
-const NavLinkWrapper = styled.div``;
-const StyledNavLink = styled.button`
-    background: transparent;
-    margin: 0;
-    padding-block: 0;
-    padding-inline: 0;
-    border-width: 0;
-`;
+export const Span__tituloChat = styled.h1`
+  font-size: ${typography.fontSize.base};
+  font-weight: ${typography.fontWeight.medium};
+  color: ${colors.textPrimary};
+  margin: 0;
+  text-align: center;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 ${spacing.lg};
 
-const SidebarToggle = styled.button`
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-
-    &:hover {
-        opacity: 0.8;
-    }
-`;
-const UserIcon = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-`;
-
-const UserIcon__image = styled.img`
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    @media (max-width: 480px) {
-        height: 30px;
-        width: 30px;
-    }
-`;
-const SidebarButton = styled.button`
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    margin-right: 10px;
-`;
-
-const Sidebar = styled.div`
-    position: fixed;
-    top: 0;
-    left: ${({isOpen}) => (isOpen ? "0" : "-250px")};
-    width: 250px;
-    height: 100%;
-    background-color: #3aafa9;
-    color: white;
-    transition: left 0.3s ease;
-    padding: 20px;
-    box-shadow: ${({isOpen}) =>
-            isOpen ? "2px 0 5px rgba(0,0,0,0.5)" : "none"};
-
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-
-    li {
-        margin: 20px 0;
-        font-size: 18px;
-    }
-`;
-const Span__tituloChat = styled.span`
-    flex-grow: 1;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: rgba(0,0,0,0.54);
-    text-align: center;
-
-  @media (max-width: 1279px) {
-    font-size: 0.9rem;
+  @media (max-width: 768px) {
+    font-size: ${typography.fontSize.sm};
+    padding: 0 ${spacing.md};
   }
 
   @media (max-width: 480px) {
-    font-size: 0.6rem;
+    font-size: ${typography.fontSize.xs};
   }
 `;
 
-export {
-    Navbar__toggle,
-    UserIcon,
-    UserIcon__image,
-    NavbarWrapper,
-    NavLinkWrapper,
-    StyledNavLink,
-    SidebarButton,
-    Sidebar,
-    Toggle__img,
-    SidebarToggle,
-    Span__tituloChat
-};
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// USER ICON (DERECHA)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const UserIconContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const UserIcon = styled.button`
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: ${colors.accent};
+  color: ${colors.bgPrimary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  font-size: ${typography.fontSize.sm};
+  font-weight: ${typography.fontWeight.semibold};
+  transition: all ${transitions.base};
+
+  &:hover {
+    background: ${colors.accentHover};
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  @media (max-width: 768px) {
+    width: 32px;
+    height: 32px;
+    font-size: ${typography.fontSize.xs};
+  }
+`;
+
+export const UserIcon__image = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// DROPDOWN (MENÚ USUARIO)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const DropdownWrapper = styled.div`
+  position: absolute;
+  top: calc(100% + ${spacing.sm});
+  right: 0;
+  width: 240px;
+  background: ${colors.bgPrimary};
+  border: 1px solid ${colors.border};
+  border-radius: 12px;
+  box-shadow: ${shadows.lg};
+  overflow: hidden;
+  z-index: 1000;
+`;
+
+export const DropdownHeader = styled.div`
+  padding: ${spacing.lg};
+  border-bottom: 1px solid ${colors.border};
+`;
+
+export const DropdownUserName = styled.div`
+  font-size: ${typography.fontSize.sm};
+  font-weight: ${typography.fontWeight.semibold};
+  color: ${colors.textPrimary};
+  margin-bottom: 2px;
+`;
+
+export const DropdownUserEmail = styled.div`
+  font-size: ${typography.fontSize.xs};
+  color: ${colors.textSecondary};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const DropdownMenu = styled.div`
+  padding: ${spacing.sm} 0;
+`;
+
+export const DropdownItem = styled.button`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: ${spacing.md};
+  padding: ${spacing.md} ${spacing.lg};
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all ${transitions.base};
+  text-align: left;
+  color: ${colors.textPrimary};
+  font-size: ${typography.fontSize.sm};
+
+  &:hover {
+    background: ${colors.bgSecondary};
+  }
+
+  &:active {
+    background: ${colors.bgTertiary};
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: ${colors.textTertiary};
+  }
+`;
+
+export const DropdownDivider = styled.div`
+  height: 1px;
+  background: ${colors.border};
+  margin: ${spacing.sm} 0;
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// EXPORTS LEGACY (para compatibilidad)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+// Mantener exportaciones anteriores si algún componente las usa
+export const Navbar__toggle = styled.div``;
+export const Toggle__img = styled.img``;
+export const NavLinkWrapper = styled.div``;
+export const StyledNavLink = styled.button``;
+export const SidebarToggle = styled.button``;
+export const SidebarButton = styled.button``;
+export const Sidebar = styled.div``;

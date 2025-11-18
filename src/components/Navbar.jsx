@@ -3,7 +3,7 @@ import {UserIconComponent} from "./UserIcon";
 import {DropdownComponent} from "./Dropdown";
 import {AuthContext} from "../context/AuthContext";
 
-import {NavbarWrapper,Span__tituloChat} from "../styles/Navbar.styled";
+import {NavbarWrapper, Span__tituloChat, UserIconContainer} from "../styles/Navbar.styled";
 
 export const Navbar = ({activeChatTitle}) => {
     const {user} = useContext(AuthContext);
@@ -29,14 +29,16 @@ export const Navbar = ({activeChatTitle}) => {
     return (
         <NavbarWrapper>
             <Span__tituloChat>
-                {activeChatTitle}
+                {activeChatTitle || "BÚHO Legal IA"}
             </Span__tituloChat>
 
-            <UserIconComponent onClick={() => setOpenProfile((prev) => !prev)}/>
+            <UserIconContainer>
+                <UserIconComponent onClick={() => setOpenProfile((prev) => !prev)}/>
 
-            {openProfile && (
-                <DropdownComponent ref={dropdownRef}/>
-            )}
+                {openProfile && (
+                    <DropdownComponent ref={dropdownRef}/>
+                )}
+            </UserIconContainer>
         </NavbarWrapper>
     );
 };
