@@ -1,217 +1,326 @@
-import styled, {keyframes} from "styled-components";
+import styled, { keyframes } from 'styled-components';
+import { colors, spacing, typography, borderRadius, shadows, transitions } from './designSystem';
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CONTAINER PRINCIPAL
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const Chat = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: ${colors.bgPrimary};
+  position: relative;
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// MESSAGES CONTAINER
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const Chat__messages = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: ${spacing['3xl']} ${spacing.xl};
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing['2xl']};
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    padding: ${spacing.xl} ${spacing.lg};
+    gap: ${spacing.xl};
+  }
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// MESSAGE BUBBLES
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const messageIn = keyframes`
-    from {
-        opacity: 0;
-        transform: translateY(6px) scale(0.98);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 `;
+
+export const Chat__messageWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: ${spacing.md};
+  animation: ${messageIn} 0.3s ease-out;
+
+  ${props => props.$isUser ? `
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  ` : `
+    flex-direction: row;
+  `}
+`;
+
+export const Chat__message = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: ${spacing.md};
+  animation: ${messageIn} 0.3s ease-out;
+
+  ${props => props.$isUser ? `
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  ` : `
+    flex-direction: row;
+  `}
+`;
+
+export const MessageIcon = styled.div`
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 50%;
+  background: ${props => props.$isUser ? colors.accent : colors.textPrimary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${colors.bgPrimary};
+  font-weight: ${typography.fontWeight.semibold};
+  font-size: ${typography.fontSize.sm};
+  flex-shrink: 0;
+
+  img, svg {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+export const MessageContent = styled.div`
+  max-width: 75%;
+  padding: ${props => props.$isUser ? spacing.lg : '0'};
+  background: ${props => props.$isUser ? colors.userBubble : 'transparent'};
+  border-radius: ${props => props.$isUser ? borderRadius.xl : '0'};
+  color: ${colors.textPrimary};
+  font-size: ${typography.fontSize.base};
+  line-height: ${typography.lineHeight.relaxed};
+  word-wrap: break-word;
+
+  @media (max-width: 768px) {
+    max-width: 85%;
+  }
+
+  // Markdown styling
+  p {
+    margin: 0 0 ${spacing.md} 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  ul, ol {
+    margin: ${spacing.sm} 0;
+    padding-left: ${spacing['2xl']};
+  }
+
+  li {
+    margin: ${spacing.xs} 0;
+  }
+
+  strong {
+    font-weight: ${typography.fontWeight.semibold};
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  code {
+    background: ${colors.bgTertiary};
+    padding: 2px 6px;
+    border-radius: ${borderRadius.sm};
+    font-size: ${typography.fontSize.sm};
+    font-family: ${typography.fontFamily.mono};
+    color: ${colors.textPrimary};
+  }
+
+  pre {
+    background: ${colors.bgTertiary};
+    padding: ${spacing.lg};
+    border-radius: ${borderRadius.md};
+    overflow-x: auto;
+    margin: ${spacing.md} 0;
+
+    code {
+      background: none;
+      padding: 0;
+      font-size: ${typography.fontSize.sm};
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid ${colors.border};
+    padding-left: ${spacing.lg};
+    margin: ${spacing.md} 0;
+    color: ${colors.textSecondary};
+  }
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CITATION BOX (para citas legales)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const CitationBox = styled.div`
+  background: ${colors.citationBox};
+  border-left: 3px solid ${colors.citationBorder};
+  padding: ${spacing.md} ${spacing.lg};
+  margin: ${spacing.md} 0;
+  border-radius: ${borderRadius.md};
+  font-size: ${typography.fontSize.sm};
+  color: ${colors.textSecondary};
+  font-style: italic;
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// TYPING INDICATOR
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 const blink = keyframes`
-    0%, 80%, 100% {
-        opacity: 0.2;
-    }
-    40% {
-        opacity: 1;
-    }
-`;
-
-const ChatComponentWrapper = styled.div`
-    flex-grow: 1;
-    transition: all 0.3s ease;
-`;
-
-const ChatContainer = styled.div`
-    display: flex;
-    overflow: hidden;
-    transition: all 0.3s ease-in-out;
-    width: 100%;
-`;
-
-const Chat = styled.div`
-    border-radius: 45px;
-    border-bottom-left-radius: 0px;
-    border-top-left-radius: 0px;
-
-    border-bottom-right-radius: 45px;
-    border-top-right-radius: 45px;
-    
-    height: calc(100vh - 5vh - 1rem - 16px);
-    width: 100%;
-    background: #f7f7f7;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-    min-height: 0;
-    @media (max-width: 480px) {
-        height: calc(100vh - 5vh - 1rem);
-    }
-`;
-
-const Chat__messages = styled.div`
-    margin: 0;
-    
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow-y: auto;
-    min-height: 0;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-    background: #F9F6F1;
-`;
-
-const Chat__messageWrapper = styled.div`
-    display: flex;
-    align-items: flex-start;
-    justify-content: ${(props) => (props.$isUser ? "end" : "flex-start")};
-    flex-direction: ${(props) => (props.$isUser ? "row-reverse" : "row")};
-    margin: 10px 0;
-    animation: ${messageIn} 160ms ease-out both;
-    padding: 0rem 15% 0px 15%;
-    gap: 8px;
-    
-    @media (max-width: 1279px) {
-        padding: 0rem 8% 0px 8%;
-    }
-    @media (max-width: 480px) {
-        padding: 0rem 2% 0px 2%;
-        gap:4px
-    }
-    
-`;
-
-const Chat__message = styled.div`
-    max-width: 70%;
-    padding: 0.2rem 1rem;
-    border-radius: 21px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    background-color: ${(props) => (props.$isUser ? "#ECECEC" : "#FFFFFF")};
-    color: #000000;
-    font-size: 18px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    font-size: 1rem;
-    @media (max-width: 1279px) {
-      max-width: 75%;
-      font-size: 0.8rem;
-    }
-    @media (max-width: 480px) {
-      font-size: 0.7rem;
-    }
-`;
-
-const ChatInputWrapper = styled.div`
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    height: 91px;
-    border-top: 1px solid #dbdbdbff;
-    width: 100%;
-    background: #FFFFFF;
-    @media (max-width: 480px) {
-        height: 70px;
-        gap:2px;
-        svg{
-            font-size: 12px !important;
-        }
-    }
-`;
-
-
-const ChatInputField = styled.textarea`
-    width:67%;
-    border: none;
-    outline: none;
-    background: #E8E8E8;
-    font-size: 16px;
-    line-height: 1.4;
-    padding: 13px 18px;
-    color: rgba(0, 0, 0, 0.54);
-    resize: none;
-    overflow-y: auto;
-    max-height: 24px;
-    min-height: 8px;
-    white-space: pre-wrap;
-    word-break: break-word;
-    border-radius: 14px;
-    scrollbar-width: none;
-    @media (max-width: 480px) {
-        font-size: 0.7rem;
-        max-height: 10px;
-        min-height: 8px;    
-    }
-`;
-
-const ChatInputButton = styled.button`
-    background-color: #1D1D1D;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    svg {
-        color: white;
-        font-size: 16px;
-    }
-
-    &:hover {
-        background-color: #319e9b;
-    }
-        @media (max-width: 480px) {
-            width: 35px;
-            height: 35px;
-            svg{
-                padding:5px}
-      }
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
 `;
 
 export const TypingBubble = styled.div`
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: #fff;
-    color: #444;
-    border-radius: 16px;
-    padding: 8px 12px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  gap: ${spacing.md};
+  padding: ${spacing.md} 0;
 
-    span {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: currentColor;
-        animation: ${blink} 1100ms infinite;
+  span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: ${colors.accent};
+    animation: ${blink} 1.4s infinite ease-in-out;
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
     }
 
-    span:nth-child(2) {
-        animation-delay: 150ms;
+    &:nth-child(2) {
+      animation-delay: -0.16s;
     }
-
-    span:nth-child(3) {
-        animation-delay: 300ms;
-    }
+  }
 `;
 
-export {
-    ChatComponentWrapper,
-    ChatContainer,
-    Chat,
-    Chat__messageWrapper,
-    Chat__messages,
-    Chat__message,
-    ChatInputWrapper,
-    ChatInputField,
-    ChatInputButton,
-};
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// CHAT INPUT
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const ChatInputWrapper = styled.div`
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: ${spacing.xl};
+  background: ${colors.bgPrimary};
+  border-top: 1px solid ${colors.border};
+
+  @media (max-width: 768px) {
+    padding: ${spacing.lg};
+  }
+`;
+
+export const ChatInputContainer = styled.div`
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  gap: ${spacing.md};
+  background: ${colors.bgPrimary};
+  border: 1px solid ${colors.border};
+  border-radius: ${borderRadius.lg};
+  padding: ${spacing.md} ${spacing.lg};
+  transition: border-color ${transitions.base}, box-shadow ${transitions.base};
+
+  &:focus-within {
+    border-color: ${colors.borderFocus};
+    box-shadow: ${shadows.focus};
+  }
+`;
+
+export const ChatInputField = styled.textarea`
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: ${typography.fontSize.base};
+  font-family: ${typography.fontFamily.primary};
+  color: ${colors.textPrimary};
+  background: transparent;
+  max-height: 200px;
+  overflow-y: auto;
+  line-height: ${typography.lineHeight.normal};
+
+  &::placeholder {
+    color: ${colors.textPlaceholder};
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
+export const ChatInputButton = styled.button`
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: ${borderRadius.md};
+  background: ${props => props.$hasValue ? colors.accent : colors.bgTertiary};
+  color: ${props => props.$hasValue ? colors.bgPrimary : colors.textTertiary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: ${props => props.$hasValue ? 'pointer' : 'not-allowed'};
+  transition: all ${transitions.base};
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    background: ${props => props.$hasValue ? colors.accentHover : colors.bgTertiary};
+    transform: ${props => props.$hasValue ? 'scale(1.05)' : 'none'};
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// LEGACY EXPORTS (mantener compatibilidad)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const ChatComponentWrapper = styled.div`
+  flex-grow: 1;
+  transition: all 0.3s ease;
+`;
+
+export const ChatContainer = styled.div`
+  display: flex;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+`;
