@@ -7,15 +7,10 @@ import AuthProvider, {AuthContext} from "./context/AuthContext";
 import {createNewChat, getChatsByUser} from "./services/chatService";
 
 function App() {
-    const [isSidebarOpen, setSidebarOpen] = useState(false);
     const {user} = useContext(AuthContext);
     const navigate = useNavigate();
     const location = useLocation(); // Hook para obtener la URL actual
     const [chats, setChats] = useState([]); // Estado para guardar la lista de chats
-
-    const handleSidebarToggle = () => {
-        setSidebarOpen(!isSidebarOpen);
-    };
 
     // Determinar si estamos en la página home
     const isHomePage = location.pathname === '/';
@@ -61,7 +56,7 @@ function App() {
     if (isHomePage) {
         return (
             <>
-                <Outlet context={{isSidebarOpen}}/>
+                <Outlet />
                 <GlobalStyle/>
             </>
         );
@@ -70,19 +65,12 @@ function App() {
     // Para otras rutas (chat), mostrar el layout completo
     return (
         <div className="App" style={{display: "flex", height: "100vh"}}>
-            <SideBarComponent
-                isOpen={isSidebarOpen}
-                handleSidebarToggle={handleSidebarToggle}
-                // Si la SideBar necesita los chats, puedes pasárselos así:
-                // chats={chats}
-            />
-            <MainContentWrapper $isOpen={isSidebarOpen}>
+            <SideBarComponent />
+            <MainContentWrapper>
                 <Navbar
-                    handleSidebarToggle={handleSidebarToggle}
-                    isSidebarOpen={isSidebarOpen}
-                    activeChatTitle={activeChatTitle} // <<-- ¡Aquí pasamos el título!
+                    activeChatTitle={activeChatTitle}
                 />
-                <Outlet context={{isSidebarOpen}}/>
+                <Outlet />
             </MainContentWrapper>
             <GlobalStyle/>
         </div>

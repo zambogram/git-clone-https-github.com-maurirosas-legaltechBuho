@@ -76,9 +76,16 @@ export const GlobalStyles = createGlobalStyle`
 import styled from 'styled-components';
 
 export const MainContentWrapper = styled.div`
-  flex-grow: 1;
-  transition: margin-left 0.3s ease-in-out;
-  width: 75%;
+  flex: 1;
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    margin-left: 50px;
+  }
 `;
 
 // Exportar GlobalStyle como alias para compatibilidad

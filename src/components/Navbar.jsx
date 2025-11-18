@@ -1,13 +1,11 @@
 import React, {useContext, useEffect, useRef, useState} from "react";
-import {SearchComponent} from "./Search";
-import {Navbar__toggleComponent} from "./Navbar__toggle";
 import {UserIconComponent} from "./UserIcon";
 import {DropdownComponent} from "./Dropdown";
 import {AuthContext} from "../context/AuthContext";
 
 import {NavbarWrapper,Span__tituloChat} from "../styles/Navbar.styled";
 
-export const Navbar = ({isOpen, handleSidebarToggle, activeChatTitle}) => {
+export const Navbar = ({activeChatTitle}) => {
     const {user} = useContext(AuthContext);
     const [openProfile, setOpenProfile] = useState(false);
     const dropdownRef = useRef(null);
@@ -30,10 +28,6 @@ export const Navbar = ({isOpen, handleSidebarToggle, activeChatTitle}) => {
 
     return (
         <NavbarWrapper>
-            <Navbar__toggleComponent
-                handleSidebarToggle={handleSidebarToggle}
-                isOpen={isOpen}
-            />
             <Span__tituloChat>
                 {activeChatTitle}
             </Span__tituloChat>

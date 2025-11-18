@@ -1,179 +1,307 @@
 import styled from "styled-components";
+import { colors, spacing, typography, borderRadius, shadows, transitions } from './designSystem';
 
-const SideBar = styled.div`
-  width: ${(props) => (props.$isOpen ? "380px" : "0px")};
-  background-color: #1d1d1d;
-  color: #ecf0f1;
-  padding: ${({ $isOpen }) => ($isOpen ? "1.2rem" : "0")};
-  box-shadow: ${({ $isOpen }) =>
-      $isOpen ? "2px 0 5px rgba(0, 0, 0, 0.1)" : "none"};
-  overflow: hidden;
-  transition: width 0.3s ease-in-out, padding 0.3s ease-in-out;
-  z-index: 1000;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 30px;
-  margin: 0rem;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// SIDEBAR PRINCIPAL (60px fijo)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const SideBar = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 100vh;
+  background: ${colors.bgPrimary};
+  border-right: 1px solid ${colors.border};
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: ${spacing.lg} 0;
+  gap: ${spacing.md};
+  z-index: 1000;
 
-  @media (max-width: 1279px) {
-    width: ${(props) => (props.$isOpen ? "215px" : "0px")};
-
+  @media (max-width: 768px) {
+    width: 50px;
+    padding: ${spacing.md} 0;
   }
-  @media (max-width: 769px) {
-    width: ${(props) => (props.$isOpen ? "150px" : "0px")};
-    padding: ${({ $isOpen }) => ($isOpen ? "1.2rem 0.8rem" : "0")};
-  }
-  @media (max-width: 480px) {
-    width: ${(props) => (props.$isOpen ? "135px" : "0px")};
-    padding: ${({ $isOpen }) => ($isOpen ? "0.8rem 0.6rem" : "0")};
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    
-  }
-  
 `;
 
-const SideBar__buttons = styled.div`
-  height: 4rem;
-  justify-content: start;
-  text-align: right;
-  margin-bottom: 1rem;
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// BOTONES DEL SIDEBAR
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const SideBarButton = styled.button`
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: ${props => props.$active ? colors.bgTertiary : 'transparent'};
+  color: ${colors.textPrimary};
   display: flex;
   align-items: center;
-  @media (max-width: 480px) {
-    margin:-10px;
-  }
-`;
-const SideBar__buttonAdd = styled.a`
-  text-decoration: none;
-  font-size: 24px;
+  justify-content: center;
   cursor: pointer;
+  transition: all ${transitions.base};
+  border: none;
+  flex-shrink: 0;
 
-  background-color: #2A2F38;
-  padding: 0.8rem 0.75rem;
-  align-items: center;
-  line-height: 1.25rem;
-  font-size: 0.9rem;
-  border-radius: 10px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  width: 100%;
-  box-sizing: border-box;
+  svg {
+    width: 20px;
+    height: 20px;
+    color: ${colors.textPrimary};
+  }
 
   &:hover {
-    background-color: #2A2F38;
+    background: ${colors.bgTertiary};
   }
 
-  @media (max-width: 1279px) {
-    font-size: 0.8rem;
+  &:active {
+    transform: scale(0.95);
   }
-  @media (max-width: 480px) {
-    font-size: 0.6rem;
-    padding: 0.5rem 0.4rem;
+
+  @media (max-width: 768px) {
+    width: 36px;
+    height: 36px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
   }
 `;
 
-const ChatHistorial__container = styled.div`
-  margin-top: 4rem;
+export const UserButton = styled(SideBarButton)`
+  margin-top: auto;
+  background: ${colors.accent};
+  color: ${colors.bgPrimary};
+  font-weight: ${typography.fontWeight.semibold};
+  font-size: ${typography.fontSize.sm};
+
+  &:hover {
+    background: ${colors.accentHover};
+  }
+
+  svg {
+    color: ${colors.bgPrimary};
+  }
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// PANEL DE HISTORIAL (expandible)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const HistoryPanel = styled.div`
+  position: fixed;
+  left: 60px;
+  top: 0;
+  width: 280px;
+  height: 100vh;
+  background: ${colors.bgPrimary};
+  border-right: 1px solid ${colors.border};
+  transform: ${props => props.$isOpen ? 'translateX(0)' : 'translateX(-100%)'};
+  transition: transform ${transitions.slow};
+  z-index: 999;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-`;
-const ChatHistorial__titulo = styled.label`
-@media (max-width: 1279px) {
-    font-size: 0.8rem;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    left: 50px;
+    width: 260px;
   }
+
   @media (max-width: 480px) {
-    font-size: 0.6rem;
+    width: calc(100vw - 50px);
   }
 `;
 
-const Pro__container = styled.div`
+export const HistoryHeader = styled.div`
   display: flex;
-  margin-top: auto;
-  width: 100%;
-  justify-content: center;
-  margin-bottom: 11px;
-  padding-top: 34px;
   align-items: center;
-  border-top: 1px solid #D1D1D1;
-  gap: 5px;
-  @media (max-width: 769px) {
-    padding-top: 37px;
-    margin-bottom: 12px;
-  }
-  @media (max-width: 480px) {
-    padding-top: 23px;
-    margin-bottom: 12px;
-  }
+  justify-content: space-between;
+  padding: ${spacing.lg} ${spacing.xl};
+  border-bottom: 1px solid ${colors.border};
+  flex-shrink: 0;
 `;
 
-const settings__container = styled.div`
+export const HistoryTitle = styled.h2`
+  font-size: ${typography.fontSize.sm};
+  font-weight: ${typography.fontWeight.semibold};
+  color: ${colors.textPrimary};
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+`;
+
+export const CloseButton = styled.button`
+  width: 32px;
+  height: 32px;
+  border-radius: ${borderRadius.md};
+  background: transparent;
+  color: ${colors.textSecondary};
   display: flex;
-  margin-top: auto;
-  width: 100%;
-  justify-content: center;
-  margin-bottom: 0rem;
   align-items: center;
-`;
-
-
-const Pro__button = styled.label`
-  background-color: #ffffffff;
-  padding: 4px 6px;
-  border-radius: 50%;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  justify-content: center;
   cursor: pointer;
-  transition: background-color 0.2s;
-  color: #fff;
-  font-size: 16px;
-  @media (max-width: 769px) {
-    font-size: 12px;
-    padding: 3px 5px;
-  }
-`;
-const SideBar__title = styled.h1`
-  font-size:51px;
-  font-family: serif;
-  margin-left:-20px;
+  transition: all ${transitions.base};
+  border: none;
 
-  @media (max-width: 1279px) {
-    font-size:32px;
-    margin-left:-15px;
-  }
-  @media (max-width: 480px) {
-    margin-left:-10px;
-    font-size: 21px;
-    
-  }
-`;
-const Span__nombre = styled.span`
-  margin: 0 0.5rem 0 0.5rem;
-
-  @media (max-width: 1279px) {
-    font-size: 0.8rem;
+  svg {
+    width: 18px;
+    height: 18px;
   }
 
-  @media (max-width: 769px) {
-    font-size: 0.6rem;
-    margin: 0 0rem 0 0rem;
+  &:hover {
+    background: ${colors.bgTertiary};
+    color: ${colors.textPrimary};
   }
 `;
-export {
-  SideBar,
-  SideBar__title,
-  SideBar__buttons,
-  SideBar__buttonAdd,
-  ChatHistorial__container,
-  ChatHistorial__titulo,
-  Pro__container,
-  Pro__button,
-  Span__nombre
-};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// LISTA DE CHATS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const ChatList = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: ${spacing.md} ${spacing.md};
+  display: flex;
+  flex-direction: column;
+  gap: ${spacing.xs};
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${colors.gray300};
+    border-radius: 3px;
+
+    &:hover {
+      background: ${colors.gray400};
+    }
+  }
+`;
+
+export const ChatItem = styled.button`
+  display: flex;
+  align-items: center;
+  gap: ${spacing.md};
+  padding: ${spacing.md} ${spacing.lg};
+  background: ${props => props.$isActive ? colors.bgTertiary : 'transparent'};
+  border: none;
+  border-radius: ${borderRadius.md};
+  cursor: pointer;
+  transition: all ${transitions.base};
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    background: ${props => props.$isActive ? colors.bgTertiary : colors.bgSecondary};
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+`;
+
+export const ChatItemIcon = styled.div`
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${colors.textTertiary};
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+`;
+
+export const ChatItemContent = styled.div`
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+`;
+
+export const ChatItemTitle = styled.span`
+  font-size: ${typography.fontSize.sm};
+  font-weight: ${typography.fontWeight.normal};
+  color: ${props => props.$isActive ? colors.textPrimary : colors.textSecondary};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.4;
+`;
+
+export const ChatItemDate = styled.span`
+  font-size: ${typography.fontSize.xs};
+  color: ${colors.textTertiary};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// EMPTY STATE
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const EmptyHistoryState = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: ${spacing['3xl']};
+  text-align: center;
+  color: ${colors.textTertiary};
+  height: 100%;
+`;
+
+export const EmptyHistoryIcon = styled.div`
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: ${colors.bgTertiary};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: ${spacing.lg};
+
+  svg {
+    width: 24px;
+    height: 24px;
+    color: ${colors.textTertiary};
+  }
+`;
+
+export const EmptyHistoryText = styled.p`
+  font-size: ${typography.fontSize.sm};
+  color: ${colors.textTertiary};
+  margin: 0;
+`;
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// OVERLAY (para cerrar panel en mobile)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+export const PanelOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 998;
+  opacity: ${props => props.$isOpen ? 1 : 0};
+  pointer-events: ${props => props.$isOpen ? 'auto' : 'none'};
+  transition: opacity ${transitions.slow};
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+`;
