@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { colors } from './designSystem';
 
- const Logo = styled.div`
+const Logo = styled.div`
     img {
         width: ${({size}) =>
             size === "extra-small"? "1rem"
@@ -8,7 +9,7 @@ import styled from "styled-components";
                     : size === "large"? "6rem"
                         : "100px"};
     }
-    background: #1D1D1D;
+    background: ${colors.textPrimary};
     border-radius: 50%;
 
     @media (max-width: 1279px) {
@@ -20,15 +21,16 @@ import styled from "styled-components";
         width: 3rem;}
     }
 `;
- const Logo_chat = styled.div`
-    background: #1D1D1D;
+
+const Logo_chat = styled.div`
+    background: ${colors.textPrimary};
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     img {
         width: 3rem;
-        
+
     }
     @media (max-width: 1279px) {
         img{
